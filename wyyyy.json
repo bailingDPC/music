@@ -1,0 +1,63 @@
+{
+    "code": 200,
+    "message": "SUCCESS",
+    "data": {
+        "yidun_white_list_music": {
+            "productNumber": "YD00000558929251",
+            "productName": "云音乐",
+            "whiteList": [{
+                "businessId": "0b0cdd23ed1144a0b78de049edc09824",
+                "businessName": "登录保护",
+                "list": ["/weapi/login", "/weapi/login/cellphone", "/weapi/login/sns", "/weapi/login/qrcode/server/login", "/weapi/login/lenovo", "/weapi/v2/login/lenovo", "/weapi/login/coolpad", "/weapi/login/microsoft", "/weapi/sns/authorize", "/weapi/register/cellphone", "/weapi/activate/initProfile", "/weapi/nuser/unbinding/urs", "/weapi/nuser/back/weichat"]
+            }, {
+                "businessId": "bd5d2f973ef74cd2a61325a412ae54d9",
+                "businessName": "信息安全保护",
+                "list": ["/weapi/user/follow", "/weapi/user/follow/users", "/weapi/v1/comment/like", "/weapi/resource/like", "/weapi/resource/unlike", "/weapi/v1/comment/unlike", "/weapi/resource/comments/add", "/weapi/v1/resource/comments/add", "/weapi/share/friends/resource", "/weapi/event/forward", "/weapi/resource/comments/reply", "/weapi/cloudvideo/video/update", "/weapi/cloudvideo/video/publish", "/weapi/msg/private/send", "/weapi/playlist/create", "/weapi/msg/private/send"]
+            }, {
+                "businessId": "0ddd302dd5db47728d1583d93dec9736",
+                "businessName": "营销反作弊保护",
+                "list": ["/weapi/concert/order/place", "/weapi/nmusician/workbench/activity/user/song/vote"]
+            }, {
+                "businessId": "db460d867c06405d91d85fc85a6be71c",
+                "businessName": "石头计划听歌营销反作弊保护",
+                "list": ["/weapi/nmusician/workbench/activity/user/effective/listen/song"]
+            }, {
+                "businessId": "03378922ec0846c0a09d554b0296a60e",
+                "businessName": "支付下单接口反作弊",
+                "list": ["/api/ordering/web/digital"]
+            }, {
+                "businessId": "c1fae3576c064553bba9a48264179b95",
+                "businessName": "app预约下载",
+                "list": ["/weapi/activity/download/message/subscribe"]
+            }, {
+                "businessId": "30ddba9bc8854b8499187b1ec5a214e8",
+                "businessName": "50城城市投票反作弊保护",
+                "list": ["/weapi/nmusician/workbench/activity/city/h5/vote", "/weapi/nmusician/activity/common/user/song/vote"]
+            }, {
+                "businessId": "f213de6cd0fe4697bea535eff97a78f5",
+                "businessName": "会员自动续费话费支付",
+                "list": ["/weapi/autopay/mobile/code/get"]
+            }, {
+                "businessId": "30ddba9bc8854b8499187b1ec5a214e8",
+                "businessName": "鎏金计划2期投票",
+                "list": ["/weapi/nmusician/workbench/plan-golden2/vote"]
+            }, {
+                "businessId": "c96fc0727927476db1250d29613680c8",
+                "businessName": "2019年终盘点游戏",
+                "list": ["/api/activity/annual2019/game/start", "/api/activity/annual2019/game/card/get", "/api/activity/annual2019/game/refresh"]
+            }]
+        }
+    }
+}
+
+
+
+{
+    "code": 200,
+    "message": null,
+    "data": {
+        "downloadPicUrl": "https://p1.music.126.net/M5oskkknIRHTcr81ZgD_0g==/109951164194361654.png",
+        "androidAutoDownloadAB": 1,
+        "on": false
+    }
+}

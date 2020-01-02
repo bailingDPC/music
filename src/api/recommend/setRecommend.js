@@ -24,7 +24,7 @@ request({
                 arr.push({
                     id: list.time,
                     title: list.title,
-                    cover: list.corer
+                    cover: list.cover
                 })
             } else {
                 arr.push({
@@ -33,7 +33,6 @@ request({
                     cover: list.cover
                 })
             }
-
         });
         recommendTable.create({
             category: category,
