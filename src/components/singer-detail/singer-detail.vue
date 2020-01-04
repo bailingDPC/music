@@ -45,9 +45,9 @@ export default {
             };
             axios.post(`http://localhost:9527/api/singerDetailData`, JSON.stringify(data)).then((data) => {
 
-                // eslint-disable-next-line no-console
-                console.log(data); //这个数据需要转一次包
                 this.songList = data.data.songList;
+                // eslint-disable-next-line no-console
+                console.log(data, "歌手详情数据请求成功"); //这个数据需要转一次包
             })
         }
     },

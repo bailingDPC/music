@@ -1,13 +1,13 @@
 <template>
   <div class="music-list">
-    <div class="back" @click="goBack">
+    <div class="back" @click= "goBack">
       <i class="icon-back"></i>
     </div>
     <h1 class="title" ref="singerName">{{ title }}</h1>
-    <div class="bg-image" :style="bgStyle" ref="bgImage">
-		<div class="play-wrapper" v-show="songList.length">
+    <div class="bg-image" :style = "bgStyle" ref="bgImage">
+		<div class="play-wrapper" v-show = "songList.length">
 			<!-- 设置随机播放选项的按钮， 该按钮在songlist数据传输进来之后再显示出来 -->
-			<div class="play" ref="playBtn">
+			<div class="play" ref="playBtn" @click = "random">
 				<!-- 添加一个引用， 当蒙版移动到顶部的时候， 就对这个按钮做一些操作 -->
 			<i class="icon-play"></i>
 			<span class="text">随机播放</span>
@@ -73,6 +73,11 @@ export default {
     };
   },
   methods: {
+    random(){
+      this.randomPlay({
+        list: this.songList
+      })
+    },
     goBack() {
       //点击返回上级路由
       this.$router.go(-1);
@@ -91,7 +96,8 @@ export default {
 		})
 	},
 	...mapActions([
-		"selectPlay"
+    "selectPlay",
+    "randomPlay"
 	])
   },
   watch: {

@@ -1,72 +1,81 @@
 <template>
-    <div class="player" v-show="playlist.length>0">
+    <div class= "player" v-show= "playlist.length>0">
 
-        <transition name="normal"
-                    @enter="enter"
-                    @after-enter="afterEnter"
-                    @leave="leave"
-                    @after-leave="afterLeave">   
-        <div class="normal-player" v-show="fullScreen"> <!-- 全屏播放器 -->
-            <div class="background">
+        <transition name= "normal"
+                    @enter = "enter"
+                    @after-enter = "afterEnter"
+                    @leave = "leave"
+                    @after-leave = "afterLeave">   
+        <div class= "normal-player" v-show = "fullScreen"> <!-- 全屏播放器 -->
+            <div class= "background">
                 <!-- 大的背景图 占据所有 -->
-                <img :src="songData.songPic" alt="" width="100%" height="100%">
+                <img :src = "songData.songPic" alt= "" width= "100%" height= "100%">
             </div>
-            <div class="top">
-                <div class="back" @click="back"> <!-- 返回按钮 -->
-                    <i class="icon-back"></i>
+            <div class= "top">
+                <div class= "back" @click = "back"> <!-- 返回按钮 -->
+                    <i class= "icon-back"></i>
                 </div>
-                <h1 class="title" v-html="songData.songName"></h1> <!-- 歌曲名称 -->
-                <h2 class="subtitle" v-html="singer.singer_name"></h2> <!-- 歌手名称 -->
+                <h1 class= "title" v-html = "songData.songName"></h1> <!-- 歌曲名称 -->
+                <h2 class= "subtitle" v-html = "singer.singer_name"></h2> <!-- 歌手名称 -->
             </div>
-            <div class="middle">
-                <div class="middle-l">
-                    <div class="cd-wrapper" ref="cdWrapper"> <!-- 歌曲唱片设计 -->
-                        <div class="cd">
-                            <img :src="songData.songPic" alt="" class="image">
+            <div class= "middle">
+                <div class= "middle-l">
+                    <div class= "cd-wrapper" ref= "cdWrapper"> <!-- 歌曲唱片设计 -->
+                        <div class= "cd" :class = "cdClass">
+                            <img :src = "songData.songPic" alt= "" class= "image">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="bottom">
-                <div class="operators"><!-- 控制按钮区 -->
-                    <div class="icon i-left">
-                        <i class="icon-sequence"></i><!-- 顺序播放 -->
+            <div class= "bottom">
+                <div class= "progress-wrapper">
+                    <span class= "time time-l"> {{ format(currentTime) }} </span>
+                    <div class= "progress-bar-wrapper">
+                        <progressbar :percent = "percent" @percentChange = "onProgressBarChange"></progressbar> <!-- 调用进度条组件 -->
                     </div>
-                    <div class="icon i-left">
-                        <i class="icon-prev"></i><!-- 上一首 -->
+                    <span class= "time time-r"> {{ songData.playTime }} </span>
+                </div>
+                <div class= "operators"><!-- 控制按钮区 -->
+                    <div class= "icon i-left">
+                        <i :class= "iconMode" @click = "changeMode"></i><!-- 顺序播放 -->
                     </div>
-                    <div class="icon i-center">
-                        <i class="icon-play"></i><!-- 播放按钮 -->
+                    <div class= "icon i-left" :class = "disableCls">
+                        <i class= "icon-prev" @click = "prev"></i><!-- 上一首 -->
                     </div>
-                    <div class="icon i-right">
-                        <i class="icon-next"></i><!-- 下一首 -->
+                    <div class= "icon i-center" :class = "disableCls">
+                        <i :class= "playIcon" @click = "togglePlaying"></i><!-- 播放按钮 -->
                     </div>
-                    <div class="icon i-right">
-                        <i class="icon icon-not-favorite"></i><!-- love -->
+                    <div class= "icon i-right" :class = "disableCls">
+                        <i class= "icon-next" @click = "next"></i><!-- 下一首 -->
+                    </div>
+                    <div class= "icon i-right">
+                        <i class= "icon icon-not-favorite"></i><!-- love -->
                     </div>
                 </div>
             </div>
         </div>
         </transition>
 
-        <transition name="mini">
-        <div class="mini-player" v-show="!fullScreen"> <!-- 迷你播放器 -->
-            <div class="icon">
-                <img :src="songData.songPic" alt="" width="40" height="40"> <!-- 小型唱片 -->
+        <transition name= "mini">
+        <div class= "mini-player" v-show= "!fullScreen" @click = "open"> <!-- 迷你播放器 -->
+            <div class= "icon">
+                <img :src= "songData.songPic" :class= "cdClass" alt= "" width= "40" height= "40"> <!-- 小型唱片 -->
             </div>
-            <div class="text">
-                <h2 class="name" v-html="songData.songName"></h2>
-                <p class="desc" v-html="singer.singer_name"></p>
+            <div class= "text">
+                <h2 class= "name" v-html= "songData.songName"></h2>
+                <p class= "desc" v-html= "singer.singer_name"></p>
             </div>
-            <div class="control">
-
+            <div class= "control">
+                <progressCircle :radius = "radius" :percent = "percent">
+                    <i v-bind:class= "miniIcon" @click.stop = "togglePlaying" class= "icon-mini"></i> <!-- 迷你播放器的播放按钮 阻止冒泡 -->
+                </progressCircle>
             </div>
-            <div class="control">
-                <div class="icon-playlist"></div>
+            <div class= "control">
+                <div class= "icon-playlist"></div>
             </div>
         </div>
         </transition>
-
+        <audio :src= "songData.m4aUrl" ref= "audio" @canplay = "ready" @error = "error" @timeupdate = "updateTime" @ended= "end"></audio>
     </div>
 </template>
 
@@ -75,7 +84,10 @@
 import { mapGetters, mapMutations } from "vuex";
 import axios from "axios";
 import animations from "create-keyframe-animation"; // 引入动画库
-
+import progressbar  from "../base/progress-bar"; //导入进度条组件
+import progressCircle from "../base/progress-circle"; //导入圆型进度条组件
+import { playMode } from "../../common/js/config"; //导入播放模式的基本参数， 避免出错
+import { shuffle } from "../../common/js/util"
 export default {
     name: "player",
     computed: {
@@ -83,18 +95,123 @@ export default {
             "fullScreen",
             "playlist",
             "currentSong", //获取当前歌曲数据
-            "singer"
-        ])
+            "singer",
+            "playing",
+            "currentIndex", //获取当前歌曲的索引值
+            "playMode", // 歌曲的播放模式
+            "sequenceList", //获取默认的顺序列表
+        ]),
+        playIcon(){ //更改播放按钮的logo图,每次playing的值发生变化， 就返回一个新的字符串， 改变元素的类名
+            return this.playing?"icon-pause": "icon-play"
+        },
+        miniIcon(){
+            return this.playing?"icon-pause-mini": "icon-play-mini"
+        },
+        cdClass(){  //通过控制类名 来控制cd图的旋转， 全屏播放器和迷你播放器都要旋转起来
+            return this.playing? "play": "play pause"
+        },
+        disableCls(){
+            return this.songReady ? "" : "disable";
+        },
+        percent(){
+            return this.currentTime / this.totalTime;
+        },
+        iconMode(){
+            return this.playMode === playMode.sequence ? "icon-sequence" : this.playMode === playMode.loop ? "icon-loop" : "icon-random";
+            //判断返回值
+        }
     },
     data(){
         return {
-            songData: {}
+            songData: {},
+            songReady: false, //歌曲是否可以开始播放， 默认为 false
+            currentTime: 0, // 默认的播放时间
+            totalTime: 0, //歌曲总时间
+            radius: 32, //定义圆型的进度条组件的基本尺寸
         }
     },
     methods: {
         ...mapMutations({
-            setFullScreen: "SET_FULL_SCREEN"
+            setFullScreen: "SET_FULL_SCREEN",
+            setPlayingState: "SET_PLAYING_STATE",
+            setCurrentIndex: "SET_CURRENT_INDEX",
+            setPlayMode: "SET_PLAY_MODE",
+            setPlayList: "SET_PLAYLIST"
         }),
+        end(){
+            //歌曲播放完成
+            if(this.playMode===playMode.loop){
+                //如果是循环模式
+                this.loop();//
+            }else {
+                //非循环模式
+                this.next();//下一首
+            }
+        },
+        loop(){
+                this.$refs.audio.currentTime=0;//播放时间归零
+                this.$refs.audio.play();//重新播放
+        },
+        changeMode(){
+            // eslint-disable-next-line no-console
+            console.log("点击切换模式");
+            let nowMode = (this.playMode+1) % 3;// 每点击一次, 值加一, 然后求模3
+            this.setPlayMode(nowMode); // 设置播放模式的值
+            let list = null;//定义一个空列表, 用来存储根据播放模式不同设置的不同的列表顺序数据
+            // eslint-disable-next-line no-console
+            console.log("nowMode",nowMode);
+            if(nowMode===playMode.random){
+                //打乱数组, 这个打乱的功能咱们专门定义一个函数来实现,我们统一写在 common>js的里面
+                list=shuffle(this.sequenceList);
+            }else {
+                list = this.sequenceList;//顺序播不用设置
+            }
+            this.resetCurrentIndex(list,this.currentSong);
+            //但是重新设置之后, 咱们当前的歌曲的索引值
+            this.setPlayList(list);
+        },
+        resetCurrentIndex(list,song){
+            // eslint-disable-next-line no-console
+            console.log(list);
+            // eslint-disable-next-line no-console
+            console.log(song);
+            let index = list.findIndex((item)=>{
+                return item.songMid===song.songMid;// 匹配songMid一致的值
+            });
+            // eslint-disable-next-line no-console
+            console.log(index);
+            this.setCurrentIndex(index);
+            //但是这里会有一些问题, 我们改变了index的值, 随之而来的currentsong也会重新激活, 那么就要重新播放
+            // 所以我们监听一下, 当currenSong发现值变化了,但是songMid一致的情况下, 那么就不用变了
+            // 所以就在watch里面修改一下currentSong的逻辑
+        },
+        onProgressBarChange(percent) { //子组件传递过来的数据
+            // eslint-disable-next-line no-console
+            console.log("player组件的百分比", percent)
+            // eslint-disable-next-line no-console
+
+            this.$refs.audio.currentTime = Math.floor(this.totalTime * percent);
+            if (!this.playing) { // 如果我们拉动进度的条的时候歌曲没有在播放, 那么就把它设置为播放
+                this.togglePlaying()
+            }
+        },
+        format(time){
+            let min = Math.floor(time / 60);
+            let second = Math.floor(time % 60);
+            if( min < 10){
+                min = '0' + min
+            }
+            if( second < 10){
+                second = '0' + second
+            }
+            return `${min}:${second}`;
+        },
+        updateTime(ev){
+            this.currentTime = ev.target.currentTime; //获取当前音乐的播放时间， 这个时间一直都是秒数
+        },
+        open(){
+            this.setFullScreen(true);
+        },
         back(){
             this.setFullScreen(false);
         },
@@ -163,7 +280,55 @@ export default {
         afterLeave(){
             this.$refs.cdWrapper.style.transition = ""; //清除过渡时间
             this.$refs.cdWrapper.style["transform"] = ""; //清空动画
-        }
+        },
+        togglePlaying(){
+            this.setPlayingState(!this.playing); //点击一次变更播放状态
+        },
+        prev(){
+            if(!this.songReady){ //当歌曲没有加载好的时候， 点击直接返回，使之无效化
+                return ;
+            }
+
+            let nowIndex = this.currentIndex - 1;
+            if(nowIndex < 0) {
+                nowIndex = this.playlist.length - 1; //播放到第一首歌，就会到最后一首歌
+            }
+            this.setCurrentIndex(nowIndex); //设置当前索引值
+            if(!this.playing){
+                this.togglePlaying();
+                // 当我们的播放器处于暂停的时候, 我们点击下一首的时候,也把音乐设置为暂停的状态
+                // 因为在默认的情况下我们更改了currentIndex,那么currentSong也会变
+                // currentSong的变化就会触发新的请求,接着就是播放新的歌
+                // 这种情况就会变成, 无论当前的播放是啥, 下一首都是播放, 但是这个没有触发playing的值,自然播放按钮的logo就不会变
+            }
+            this.songReady = false; //复位
+        },
+        next(){
+            if(!this.songReady){ //当歌曲没有加载好的时候， 点击直接返回，使之无效化
+                return ;
+            }
+
+            let nowIndex = this.currentIndex + 1;
+            if (nowIndex > this.playlist.length) {
+                nowIndex = 0;//播放到最后一首了,就回到第一首歌
+            }
+            this.setCurrentIndex(nowIndex);//设置当前索引值
+            if(!this.playing){
+                this.togglePlaying();
+                // 当我们的播放器处于暂停的时候, 我们点击下一首的时候,也把音乐设置为暂停的状态
+                // 因为在默认的情况下我们更改了currentIndex,那么currentSong也会变
+                // currentSong的变化就会触发新的请求,接着就是播放新的歌
+                // 这种情况就会变成, 无论当前的播放是啥, 下一首都是播放, 但是这个没有触发playing的值,自然播放按钮的logo就不会变
+            }
+            this.songReady = false; //复位
+        },
+        ready(){
+            this.songReady = true; //当audio元素激活了 canplay 之后， 自动把songReady 设置为true
+        },
+        error(){
+            //如果播放歌曲加载失败， 手动将this.songReady 也设置为true, 方便继续点击下一首
+            this.songReady = true;
+        },
     },
     watch:{
         currentSong(){ //当currentSong数据更新之后， 利用当前的song里面的数据， 来发送进一步的请求， 得到具体的歌曲数据
@@ -188,12 +353,36 @@ export default {
                 }
             })
 
+        },
+        songData(){
+            // eslint-disable-next-line no-console
+            console.log("songData数据已更新");
+            // eslint-disable-next-line no-console
+            console.log(this.songData.m4aUrl);
+
+            this.$nextTick(() => { //设置audio元素的src的瞬间， 资源还没加载好,贸然直接播放会出现问题
+                this.$refs.audio.play();
+            });
+
+            // eslint-disable-next-line no-console
+            console.log("歌曲总时间的字符串值:", this.songData.playTime);
+            this.totalTime = Number(this.songData.playTime.split(":")[0]) * 60 + Number(this.songData.playTime.split(":")[1]);
+            // eslint-disable-next-line no-console
+            console.log("歌曲的总时间", this.totalTime);
+        },
+        playing(newPlaying){
+            let audio = this.$refs.audio;
+            newPlaying?audio.play(): audio.pause(); //根据播放状态改变播放情况
         }
+    },
+    components: {
+        progressbar,
+        progressCircle
     }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang= "stylus" scoped>
     @import "../../common/stylus/variable.styl"
     @import "../../common/stylus/mixin.styl"
     .player

@@ -8,7 +8,7 @@ function getSingerDetailData(req, res) {
         singer_mid: body.mid
     }).then((data) => {
         // eslint-disable-next-line no-console
-        console.log(Number(data));
+        console.log(data);
         if (Number(data) === 0) {
             // eslint-disable-next-line no-console
             console.log("此时数据库中没有数据");
@@ -62,7 +62,7 @@ function getSingerDetailData(req, res) {
         } else {
             // eslint-disable-next-line no-console
             console.log("此时数据库中有数据");
-            res.send(data);
+            res.send(data[0]);
         }
     })
 }
