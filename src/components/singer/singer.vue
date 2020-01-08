@@ -1,5 +1,5 @@
 <template>
-    <div class="singer">
+    <div class="singer" ref="singer">
         <listview :data="singerlist" v-on:select="selectSinger"></listview>
         <router-view></router-view>
     </div>
@@ -9,8 +9,10 @@
 import axios from "axios";
 import Listview  from "../base/listview.vue"
 import { mapMutations } from "vuex" //取得工具函数
+import { playlistMixin } from "../../common/js/mixin";
 
 export default {
+    mixins: [ playlistMixin ],
     name: "singer",
     data(){
         return {
@@ -24,6 +26,11 @@ export default {
         })
     },
     methods: {
+        handlePlaylist(playlist){
+            // 监听是否得到了playlist的值
+            this.$refs.singer.style.bottom=playlist.length > 0 ? "70px" : "";
+            // this.$refs.list.refresh();
+        },
         selectSinger(singerItem){ //由子组件的点击事件触发的父组件事件
             this.$router.push({
                 path: `/singer/${singerItem.singer_mid}` //变更路由，触发子组件

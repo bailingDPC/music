@@ -1,12 +1,12 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" ref="recommend">
 	<scroll class="recommend-content" v-bind:data = "disclist">
     <div>
       <div class="slider-wrapper">
         <slider>
-          <div v-for="item in sliderRecommends" v-bind:key="item.id">
+          <div v-for= "item in sliderRecommends" v-bind:key= "item.id" @click = "selectItem(item)">
             <a>
-              <img v-bind:src="item.cover" alt />
+              <img v-bind:src= "item.cover" alt />
             </a>
           </div>
         </slider>
@@ -14,13 +14,13 @@
       <div class="recommend-list">
         <h1 class="list-title">热门歌单推荐</h1>
         <ul>
-          <li v-for="item in disclist" v-bind:key="item.id" class="item">
+          <li v-for= "item in disclist" v-bind:key= "item.id" class="item" @click = "selectItem(item)">
             <div class="icon">
-              <img width="60" heght="60" v-bind:src="item.cover" alt />
+              <img width="60" heght="60" v-bind:src= "item.cover" alt />
             </div>
             <div class="text">
-              <h2 class="name" v-html="item.category"></h2>
-              <p class="desc" v-html="item.title"></p>
+              <h2 class="name" v-html= "item.category"></h2>
+              <p class="desc" v-html= "item.title"></p>
             </div>
           </li>
         </ul>
@@ -30,22 +30,48 @@
 		<loading></loading>
 	</div>
 	</scroll>
+  <!-- 二级路由的容器 -->
+  <router-view></router-view>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 import Slider from "../base/slider";
 import Scroll from "../base/scroll";
 import Loading from "../base/loading"
+import { playlistMixin } from "../../common/js/mixin";
+import { mapMutations } from "vuex"
+
 export default {
+  mixins: [ playlistMixin ],
   data() {
     return {
       sliderRecommends: [], //存放轮播的推荐信息
       disclist: [] //存储下面列表信息的推荐信息
     };
   },
+  methods:{
+    ...mapMutations({
+      setDisc: "SET_DISC"
+    }),
+    handlePlaylist(playlist){
+        // 监听是否得到了playlist的值
+        this.$refs.recommend.style.bottom=playlist.length > 0 ? "50px" : "";
+        // this.$refs.list.refresh();
+    },
+    selectItem(item){
+      axios.get(`http://localhost:9527/api/recommendDetailData/${item.id}`).then((data) => {
+        this.$router.push( `/recommend/${ item.id }` ); //设置路由
+        this.setDisc(data.data);
+        // eslint-disable-next-line no-console
+        console.log(data);
+      });
+      //设置vuex
+    }
+  },
   beforeCreate() {
-    axios.get("http://localhost:9527/api/recommenddata").then(data => {
+    axios.get("http://localhost:9527/api/recommendData").then(data => {
       this.sliderRecommends = data.data.shift().categoryList;
       // eslint-disable-next-line no-console
       console.log(this.sliderRecommends);

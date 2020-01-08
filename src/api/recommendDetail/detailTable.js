@@ -39,11 +39,15 @@ let detailSchema = new Schema({
     ],
     songlist: [
         {
-            mid: { // 音乐的id
+            songMid: {
                 required: true,
                 type: String
             },
-            name: { // 歌曲的名称
+            songName: {
+                required: true,
+                type: String
+            },
+            songAlbum: {
                 required: true,
                 type: String
             },

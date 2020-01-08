@@ -8,4 +8,6 @@ export const currentIndex = state => state.currentIndex;
 export const currentSong = (state) => {
     //类似于一个计算属性，做一个放错处理
     return state.playlist[state.currentIndex] || {};
-}
+};
+export const disc = state => state.disc;
+export const topList = state => state.topList;

@@ -46,7 +46,7 @@
 				if (this.autoPlay) {
 					this._play();
 				}
-			}, 100);
+			}, 200);
 			window.addEventListener("resize", () => {
 				if (!this.slider) {
 					return;

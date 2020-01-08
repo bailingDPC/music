@@ -2,14 +2,18 @@ const express = require("express");
 const bodyParse = require("body-parser");
 
 const { getRecommendData } = require("./recommend/getrecommendData");
-const { getDetailData } = require("./recommendDetail/getdetailData");
+const { getRecommendDetailData } = require("./recommendDetail/getdetailData");
 const { getSingerData } = require("./singer/getSingerData");
 const { getSingerDetailData } = require("./singerDetails/getSingerDetailData");
 const { getSongDetailData } = require("./songDetail/getSongDetail");
+const { getLyric } = require("./lyric/getlyric");
+const { getRankData } = require("./rank/getRankData");
+const { getRankDetailData } = require("./rankDetail/getRankDetail");
+const { getSearchResult } = require("./search/getSearchData");
+const { getHotKey } = require("./hotKey/getHotKey");
 
 let app = express();
-app.use(bodyParse.urlencoded({extended: false})); //使用中间件
-
+app.use(bodyParse.urlencoded({extended: true})); //使用中间件
 app.all("*", function (req, res, next) {//解决跨域请求问题
     res.header({
         'Access-Control-Allow-Credentials': true,
@@ -19,7 +23,7 @@ app.all("*", function (req, res, next) {//解决跨域请求问题
         'Content-Type': 'application/json; charset=utf-8'
     });
     if (req.method === "OPTIONS") {
-        res.send(200)
+        res.send(200);
         // eslint-disable-next-line no-console
         console.log("has option")
     } else {
@@ -27,10 +31,15 @@ app.all("*", function (req, res, next) {//解决跨域请求问题
     }
 });
 
-app.get("/api/recommenddata", getRecommendData);
-app.get("/api/detaildata/:id", getDetailData);
+app.get("/api/recommendData", getRecommendData);
+app.get("/api/recommendDetailData/:id", getRecommendDetailData);
 app.get("/api/singerData", getSingerData);
 app.post("/api/singerDetailData", getSingerDetailData);
 app.post("/api/songDetailData", getSongDetailData);
+app.post("/api/lyric", getLyric);
+app.get("/api/rankData", getRankData);
+app.get("/api/rankDetailData/:id", getRankDetailData);
+app.get("/api/searchResult/:id", getSearchResult);
+app.get("/api/hotKey", getHotKey);
 
 app.listen(9527);

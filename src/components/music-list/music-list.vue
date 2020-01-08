@@ -44,8 +44,11 @@ import songlist from "../base/song-list";
 import Scroll from "../base/scroll";
 import Loading from "../base/loading";
 import { mapActions } from "vuex";
+import { playlistMixin } from "../../common/js/mixin";
+
 
 export default {
+  mixins: [ playlistMixin ], //引用混入组件
   name: "music-list",
   props: {
     //接受传进来的props参数
@@ -73,6 +76,11 @@ export default {
     };
   },
   methods: {
+    handlePlaylist(playlist){
+      //监听是否得到了playlist 的值
+      this.$refs.list.$el.style.bottom = playlist.length>0 ? "50px": "";
+      this.$refs.list.refresh();
+    },
     random(){
       this.randomPlay({
         list: this.songList
@@ -84,21 +92,21 @@ export default {
     },
     scroll(pos) {
       this.scrollY = pos.y; //设置当前的y轴偏移量
-	},
-	selectItem(item, index){
-		// 设置playlist, playing, fullScreen, playMode, currentIndex等值
-		// 这种复杂的值设置，可以设置一个actions来处理
-		// eslint-disable-next-line no-console
-		console.log(item, index);
-		this.selectPlay({
-			list: this.songList, //传入当前数据的歌曲列表
-			index: index, //当前歌曲的索引
-		})
-	},
-	...mapActions([
-    "selectPlay",
-    "randomPlay"
-	])
+    },
+    selectItem(item, index){
+      // 设置playlist, playing, fullScreen, playMode, currentIndex等值
+      // 这种复杂的值设置，可以设置一个actions来处理
+      // eslint-disable-next-line no-console
+      console.log(item, index);
+      this.selectPlay({
+        list: this.songList, //传入当前数据的歌曲列表
+        index: index, //当前歌曲的索引
+      })
+    },
+    ...mapActions([
+      "selectPlay",
+      "randomPlay"
+    ])
   },
   watch: {
     scrollY(newY) {
@@ -121,17 +129,16 @@ export default {
       }
     }
   },
-  components: {
+  components : {
     songlist,
-	Scroll,
-	Loading
+    Scroll,
+    Loading
   },
   mounted() {
     //设置一个偏移量, 使得下方的songlist组件不要把上面的歌手图片给遮住了
     this.$refs.list.$el.style.top = `${this.$refs.bgImage.clientHeight}px`;
     //计算出蒙版上移的最高值
-    this.translateY =
-      this.$refs.bgImage.clientHeight - this.$refs.singerName.clientHeight;
+    this.translateY = this.$refs.bgImage.clientHeight - this.$refs.singerName.clientHeight;
   },
   created() {
     //设置一些scroll组件的参数, 使得scroll组件能够把滚动事件传回来而不是截住
