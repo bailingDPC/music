@@ -10,4 +10,4 @@ function getSingerData(req, res){
 
 module.exports = {
     getSingerData
-}
+};

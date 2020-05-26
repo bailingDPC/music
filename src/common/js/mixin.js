@@ -24,4 +24,4 @@ export const playlistMixin = {
             throw new Error("组件中需要实现handlePlaylist方法")
         }
     }
-}
+};

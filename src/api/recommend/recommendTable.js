@@ -36,7 +36,7 @@ let recommendSchema = new Schema({
     ]
 });
 
-let recommendDate = mongoose.model("recommendDate", recommendSchema);
+let recommendData = mongoose.model("recommendData", recommendSchema);
 module.exports = { //导出表
-    recommendTable: recommendDate
-}
+    recommendTable: recommendData
+};

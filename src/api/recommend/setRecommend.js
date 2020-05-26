@@ -1,5 +1,5 @@
 const request = require("request")
-const { recommendTable } = require("./recommendTable")
+const { recommendTable } = require("./recommendTable");
 
 request({
     method: "GET",
@@ -41,7 +41,7 @@ request({
             // eslint-disable-next-line no-console
             console.log("写入成功");
         }).catch((err)=>{
-            if(err) throw err; 
+            if(err) throw err;
             // eslint-disable-next-line no-console
             console.log("写入失败");
         })

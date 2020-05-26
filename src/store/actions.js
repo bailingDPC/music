@@ -18,4 +18,4 @@ export const randomPlay = function({commit}, {list}){
     commit(types.SET_CURRENT_INDEX, 0);
     commit(types.SET_FULL_SCREEN, true);
     commit(types.SET_PLAYING_STATE, true);
-}
+};

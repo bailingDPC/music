@@ -9,7 +9,7 @@ function getSongDetailData(req, res, err) {
     }).then((data) => {
         if (Number(data) === 0) {
             // eslint-disable-next-line no-console
-            console.log("此时数据库中---->歌曲数据----->没有数据")
+            console.log("此时数据库中---->歌曲数据----->没有数据");
             // eslint-disable-next-line no-console
             console.log(body.mid);
             request({
@@ -46,4 +46,4 @@ function getSongDetailData(req, res, err) {
 
 module.exports = {
     getSongDetailData
-}
+};

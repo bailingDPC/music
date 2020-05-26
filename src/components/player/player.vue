@@ -5,7 +5,7 @@
                     @enter = "enter"
                     @after-enter = "afterEnter"
                     @leave = "leave"
-                    @after-leave = "afterLeave">   
+                    @after-leave = "afterLeave">
         <div class= "normal-player" v-show = "fullScreen"> <!-- 全屏播放器 -->
             <div class= "background">
                 <!-- 大的背景图 占据所有 -->
@@ -35,14 +35,14 @@
                     </div>
                 </div>
                 <!-- 歌词模块 -->
-                <scroll class="middle-r" 
+                <scroll class="middle-r"
                         ref="lyricList"
                         :data = "currentLyric && currentLyric.lines">
                     <div class="lyric-wrapper">
                         <div v-if="currentLyric">
                             <p  ref="lyricLine"
                                 class="text"
-                                :class="{'current': currentLineNum === index}" 
+                                :class="{'current': currentLineNum === index}"
                                 v-for = "(line, index) in currentLyric.lines"
                                 :key = "index"
                                 >{{ line.txt }}</p>
@@ -500,7 +500,6 @@ export default {
                     this.songData = data.data; //单独版本直接设置值;
                 }
             })
-
         },
         songData(){
             // eslint-disable-next-line no-console

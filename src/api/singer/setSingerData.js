@@ -38,5 +38,5 @@ request({
             "singer_pic": item.singer_pic
         })
     })
-})
+});
 

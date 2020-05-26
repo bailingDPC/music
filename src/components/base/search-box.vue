@@ -1,9 +1,9 @@
 <template>
     <div class="search-box">
-        <i class = "icon-search"></i><!-- 搜索图标 -->
-        <input ref = "query" v-model.lazy = "query" class = "box" :placeholder="placeholder"/> <!-- 搜索框 -->
-        <i @click = "clear" v-show = "query" class = "icon-dismiss" ></i>
-<!-- 取消按钮 -->
+        <i class="icon-search"></i><!-- 搜索图标 -->
+        <input ref="query" v-model.lazy="query" class="box" :placeholder="placeholder"> <!-- 搜索框 -->
+        <i @click="clear" v-show="query" class="icon-dismiss"></i>
+        <!-- 取消按钮 -->
     </div>
 </template>
 
@@ -17,13 +17,13 @@
                 default: "搜索歌曲、歌手"
             }
         },
-        data(){
+        data() {
             return {
                 query: ""
-            }
+            };
         },
         methods: {
-            clear(){
+            clear() {
                 this.query = "";
             },
             setQuery(query) {
@@ -31,7 +31,7 @@
             }
         },
         watch: {
-            query( newQuery ){
+            query(newQuery) {
                 this.$emit("queryEvent", newQuery);
             }
         }
@@ -50,9 +50,11 @@
         height: 40px
         background: $color-highlight-background
         border-radius: 6px
+
         .icon-search
             font-size: 24px
             color: $color-background
+
         .box
             flex: 1
             margin: 0 5px
@@ -60,8 +62,10 @@
             background: $color-highlight-background
             color: $color-text
             font-size: $font-size-medium
+
             &::placeholder
                 color: $color-text-d
+
         .icon-dismiss
             font-size: 16px
             color: $color-background

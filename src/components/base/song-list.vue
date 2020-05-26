@@ -1,38 +1,38 @@
 <template>
-  <div class="song-list">
-    <ul>
-      <li v-for="(song, index) in songs" class="item" v-bind:key="song.songMid" @click="selectItem(song, index)">
-        <!-- 增加一个点击事件， 当点击音乐列表的时候， 就把这个音乐加入到播放列表里面 -->
-        <div class="content">
-          <h2 class="name">{{song.songName}}</h2>
-          <p class="desc">{{singername}}---{{song.songAlbum}}</p>
-        </div>
-      </li>
-    </ul>
-  </div>
+    <div class="song-list">
+        <ul>
+            <li v-for="(song, index) in songs" class="item" v-bind:key="song.songMid" @click="selectItem(song, index)">
+                <!-- 增加一个点击事件， 当点击音乐列表的时候， 就把这个音乐加入到播放列表里面 -->
+                <div class="content">
+                    <h2 class="name">{{song.songName}}</h2>
+                    <p class="desc">{{singername}}---{{song.songAlbum}}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
-export default {
-    name: "songlist",
-    props:{
-        songs: {
-            type: Array
+    export default {
+        name: "songlist",
+        props:{
+            songs: {
+                type: Array
+            },
+            singername: {
+                type: String
+            }
         },
-        singername: {
-            type: String
-        }
-    },
-    created(){
-        // eslint-disable-next-line no-console
-        console.log(this.songs)
-    },
-    methods: {
-        selectItem(item, index){
-            this.$emit("select", item, index); //把事件和参数传递到父组件 music-list 组件
+        created(){
+            // eslint-disable-next-line no-console
+            console.log(this.songs)
+        },
+        methods: {
+            selectItem(item, index){
+                this.$emit("select", item, index); //把事件和参数传递到父组件 music-list 组件
+            }
         }
     }
-}
 </script>
 
 <style lang="stylus" scoped>
@@ -67,11 +67,11 @@ export default {
 
                     &.icon2
                         bg-image("third.png")
-                        
+
                 .text
                     color: $color-theme
                     font-size: $font-size-large
-                    
+
             .content
                 flex: 1
                 line-height: 20px
@@ -80,7 +80,7 @@ export default {
                 .name
                     no-wrap()
                     color: $color-text
-                
+
                 .desc
                     no-wrap()
                     margin-top: 4px

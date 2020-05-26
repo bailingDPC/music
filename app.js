@@ -1,24 +1,34 @@
 const express = require("express");
-const bodyParse = require("body-parser");
-
-const { getRecommendData } = require("./recommend/getrecommendData");
-const { getRecommendDetailData } = require("./recommendDetail/getdetailData");
-const { getSingerData } = require("./singer/getSingerData");
-const { getSingerDetailData } = require("./singerDetails/getSingerDetailData");
-const { getSongDetailData } = require("./songDetail/getSongDetail");
-const { getLyric } = require("./lyric/getlyric");
-const { getRankData } = require("./rank/getRankData");
-const { getRankDetailData } = require("./rankDetail/getRankDetail");
-const { getSearchResult } = require("./search/getSearchData");
-const { getHotKey } = require("./hotKey/getHotKey");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const path = require("path");
+const {
+    getHotKey,
+    getSearchResult,
+    getRankDetailData,
+    getRankData,
+    getLyric,
+    getSongDetailData,
+    getSingerDetailData,
+    getSingerData,
+    getRecommendData,
+    getRecommendDetailData,
+} = require("./src/api/api.config");
 
 let app = express();
-app.use(bodyParse.urlencoded({extended: true})); //使用中间件
+
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "dist")));
+
 app.all("*", function (req, res, next) {//解决跨域请求问题
     res.header({
         'Access-Control-Allow-Credentials': true,
         'Access-Control-Allow-Origin': req.headers.origin || '*',
-        'Access-Control-Allow-Headers': 'X-Requested-with',
+        // 'Access-Control-Allow-Headers': 'X-Requested-with',
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
         'Content-Type': 'application/json; charset=utf-8'
     });

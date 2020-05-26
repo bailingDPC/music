@@ -4,7 +4,6 @@
             <searchBox
                     ref="searchBox"
                     v-on:queryEvent="searchData"
-
             ></searchBox>
         </div>
         <div class="shortcut-wrapper" v-show="!songs.length">
@@ -24,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="searchList" v-show="songs.length" @clearSongs="clear">
+        <div class="searchList" v-show="songs.length">
             <songlist
                     v-bind:songs="songs"
                     v-bind:singername="''"
@@ -36,7 +35,7 @@
 <script>
     import searchBox from "../base/search-box"
     import axios from "axios"
-    import Songlist from "../base/song-list";
+    import songlist from "../base/song-list";
     import {mapActions} from "vuex"
 
     export default {
@@ -48,7 +47,7 @@
             }
         },
         components: {
-            Songlist,
+            songlist,
             searchBox
         },
         created() {
