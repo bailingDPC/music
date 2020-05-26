@@ -43,7 +43,7 @@ export default {
             let data = {
                 mid: mid
             };
-            axios.post(`http://localhost:9527/api/singerDetailData`, JSON.stringify(data)).then((data) => {
+            axios.post(`http://106.14.126.148:3000/api/singerDetailData`, JSON.stringify(data)).then((data) => {
 
                 this.songList = data.data.songList;
                 // eslint-disable-next-line no-console
@@ -58,9 +58,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped rel="stylesheet/stylus">
-    .slide-enter-active, .slide-leave-active 
+    .slide-enter-active, .slide-leave-active
         transition: all 0.3s;
 
-    .slide-enter, .slide-leave-to 
+    .slide-enter, .slide-leave-to
         transform: translate3d(100%, 0, 0);
 </style>

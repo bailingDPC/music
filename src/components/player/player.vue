@@ -5,7 +5,7 @@
                     @enter = "enter"
                     @after-enter = "afterEnter"
                     @leave = "leave"
-                    @after-leave = "afterLeave">   
+                    @after-leave = "afterLeave">
         <div class= "normal-player" v-show = "fullScreen"> <!-- 全屏播放器 -->
             <div class= "background">
                 <!-- 大的背景图 占据所有 -->
@@ -35,14 +35,14 @@
                     </div>
                 </div>
                 <!-- 歌词模块 -->
-                <scroll class="middle-r" 
+                <scroll class="middle-r"
                         ref="lyricList"
                         :data = "currentLyric && currentLyric.lines">
                     <div class="lyric-wrapper">
                         <div v-if="currentLyric">
                             <p  ref="lyricLine"
                                 class="text"
-                                :class="{'current': currentLineNum === index}" 
+                                :class="{'current': currentLineNum === index}"
                                 v-for = "(line, index) in currentLyric.lines"
                                 :key = "index"
                                 >{{ line.txt }}</p>
@@ -485,7 +485,7 @@ export default {
             let data = {
                 mid: this.currentSong.songMid
             };
-            axios.post("http://localhost:9527/api/songDetailData", JSON.stringify(data)).then((data) => {
+            axios.post("http://106.14.126.148:3000/api/songDetailData", JSON.stringify(data)).then((data) => {
                 if(data) {
                     // eslint-disable-next-line no-console
                     console.log("歌曲信息获取成功");
@@ -515,7 +515,7 @@ export default {
 
             // eslint-disable-next-line no-console
             console.log(data);
-            axios.post("http://localhost:9527/api/lyric", JSON.stringify(data)).then((data) => {
+            axios.post("http://106.14.126.148:3000/api/lyric", JSON.stringify(data)).then((data) => {
                 let lyric = data.data; //获取歌词数据
                 // eslint-disable-next-line no-console
                 // console.log(lyric);

@@ -21,7 +21,7 @@ export default {
     },
     created(){
         //请求数据
-        axios.get("http://localhost:9527/api/singerData").then( data => {
+        axios.get("http://106.14.126.148:3000/api/singerData").then( data => {
             this.singerlist = data.data;
         })
     },

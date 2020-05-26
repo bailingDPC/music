@@ -32,7 +32,7 @@
     export default {
         mixins: [playlistMixin],
         created() {
-            axios.get("http://localhost:9527/api/rankData").then((data)=>{
+            axios.get("http://106.14.126.148:3000/api/rankData").then((data)=>{
                 // eslint-disable-next-line no-console
                 console.log(data.data)
                 this.topList=data.data
@@ -53,7 +53,7 @@
                 this.$refs.toplist.refresh()
             },
             selectItem(item) {
-                axios.get(`http://localhost:9527/api/rankDetailData/${item.topId}`).then((data) => {
+                axios.get(`http://106.14.126.148:3000/api/rankDetailData/${item.topId}`).then((data) => {
                     this.$router.push(`/rank/${item.topId}`);
                     this.setTopList(data.data);
                 });
