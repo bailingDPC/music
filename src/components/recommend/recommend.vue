@@ -61,7 +61,7 @@ export default {
         // this.$refs.list.refresh();
     },
     selectItem(item){
-      axios.get(`http://localhost:9527/api/recommendDetailData/${item.id}`).then((data) => {
+      axios.get(`http://106.14.126.148:3000/api/recommendDetailData/${item.id}`).then((data) => {
         this.$router.push( `/recommend/${ item.id }` ); //设置路由
         this.setDisc(data.data);
         // eslint-disable-next-line no-console
@@ -71,7 +71,7 @@ export default {
     }
   },
   beforeCreate() {
-    axios.get("http://localhost:9527/api/recommendData").then(data => {
+    axios.get("http://106.14.126.148:3000/api/recommendData").then(data => {
       this.sliderRecommends = data.data.shift().categoryList;
       // eslint-disable-next-line no-console
       console.log(this.sliderRecommends);

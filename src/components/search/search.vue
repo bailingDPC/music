@@ -51,7 +51,7 @@
             searchBox
         },
         created() {
-            axios.get("http://localhost:9527/api/hotKey").then((data) => {
+            axios.get("http://106.14.126.148:3000/api/hotKey").then((data) => {
                 // eslint-disable-next-line no-console
                 console.log(data.data);
                 this.hotKey = data.data;
@@ -68,7 +68,7 @@
                 // eslint-disable-next-line no-console
                 console.log("父组件的事件被激活", newQuery);
                 if (newQuery) {
-                    axios.get(`http://localhost:9527/api/searchResult/${newQuery}`).then((data) => {
+                    axios.get(`http://106.14.126.148:3000/api/searchResult/${newQuery}`).then((data) => {
                         // eslint-disable-next-line no-console
                         console.log(data.data);
                         this.songs = data.data.songlist;

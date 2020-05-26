@@ -52,4 +52,4 @@ app.get("/api/rankDetailData/:id", getRankDetailData);
 app.get("/api/searchResult/:id", getSearchResult);
 app.get("/api/hotKey", getHotKey);
 
-app.listen(9527);
+app.listen(3000);

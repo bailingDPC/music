@@ -485,7 +485,7 @@ export default {
             let data = {
                 mid: this.currentSong.songMid
             };
-            axios.post("http://localhost:9527/api/songDetailData", JSON.stringify(data)).then((data) => {
+            axios.post("http://106.14.126.148:3000/api/songDetailData", JSON.stringify(data)).then((data) => {
                 if(data) {
                     // eslint-disable-next-line no-console
                     console.log("歌曲信息获取成功");
@@ -514,7 +514,7 @@ export default {
 
             // eslint-disable-next-line no-console
             console.log(data);
-            axios.post("http://localhost:9527/api/lyric", JSON.stringify(data)).then((data) => {
+            axios.post("http://106.14.126.148:3000/api/lyric", JSON.stringify(data)).then((data) => {
                 let lyric = data.data; //获取歌词数据
                 // eslint-disable-next-line no-console
                 // console.log(lyric);
