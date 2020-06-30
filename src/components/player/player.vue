@@ -9,7 +9,7 @@
         <div class= "normal-player" v-show = "fullScreen"> <!-- 全屏播放器 -->
             <div class= "background">
                 <!-- 大的背景图 占据所有 -->
-                <img :src = "songData.songPic" alt= "" width= "100%" height= "100%">
+                <img :src = "'http:'+songData.songPic" alt= "" width= "100%" height= "100%">
             </div>
             <div class= "top">
                 <div class= "back" @click = "back"> <!-- 返回按钮 -->
