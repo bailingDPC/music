@@ -26,7 +26,7 @@
                 <div class= "middle-l" ref = "middleL">
                     <div class= "cd-wrapper" ref= "cdWrapper"> <!-- 歌曲唱片设计 -->
                         <div class= "cd" :class = "cdClass">
-                            <img :src = "songData.songPic" alt= "" class= "image">
+                            <img :src = "'http:'+songData.songPic" alt= "" class= "image">
                         </div>
                     </div>
                     <!-- CD主界面下方的主题歌词 -->
@@ -82,7 +82,7 @@
         <transition name= "mini">
         <div class= "mini-player" v-show= "!fullScreen" @click = "open"> <!-- 迷你播放器 -->
             <div class= "icon">
-                <img :src= "songData.songPic" :class= "cdClass" alt= "" width= "40" height= "40"> <!-- 小型唱片 -->
+                <img :src= "'http:'+ songData.songPic" :class= "cdClass" alt= "" width= "40" height= "40"> <!-- 小型唱片 -->
             </div>
             <div class= "text">
                 <h2 class= "name" v-html= "songData.songName" ></h2>
