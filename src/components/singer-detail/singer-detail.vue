@@ -43,7 +43,7 @@ export default {
             let data = {
                 mid: mid
             };
-            axios.post(`http://106.14.126.148:3000/api/singerDetailData`, JSON.stringify(data)).then((data) => {
+            axios.post(this.apiPath.getSingerDetailData, JSON.stringify(data)).then((data) => {
 
                 this.songList = data.data.songList;
                 // eslint-disable-next-line no-console
